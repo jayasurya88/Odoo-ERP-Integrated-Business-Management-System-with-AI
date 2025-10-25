@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_manager,crm.lead.manager,crm.model_crm_lead,group_crm_manager,1,1,1,1
+access_crm_lead_user,crm.lead.user,crm.model_crm_lead,group_crm_user,1,1,1,0
+access_crm_stage_manager,crm.stage.manager,crm.model_crm_stage,group_crm_manager,1,1,1,1
+access_crm_stage_user,crm.stage.user,crm.model_crm_stage,group_crm_user,1,0,0,0

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Payslip Sequence -->
+        <record id="sequence_hr_payslip" model="ir.sequence">
+            <field name="name">Payslip Sequence</field>
+            <field name="code">hr.payslip</field>
+            <field name="prefix">PAY/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Payslip Form View -->
+        <record id="view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">hr.payslip.form</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <form string="Payslip">
+                    <header>
+                        <button name="action_verify" string="Submit for Verification" 
+                                type="object" class="oe_highlight" 
+                                attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_done" string="Mark as Paid" 
+                                type="object" class="oe_highlight" 
+                                attrs="{'invisible': [('state', '!=', 'verify')]}"/>
+                        <button name="action_draft" string="Set to Draft" 
+                                type="object" 
+                                attrs="{'invisible': [('state', '=', 'draft')]}"/>
+                        <button name="action_cancel" string="Cancel" 
+                                type="object" 
+                                attrs="{'invisible': [('state', 'in', ['done', 'cancel'])]}"/>
+                        <button name="action_print_payslip" string="Print Payslip" 
+                                type="object" 
+                                attrs="{'invisible': [('state', '!=', 'done')]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,verify,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <field name="job_id"/>
+                            </group>
+                            <group>
+                                <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Salary Details">
+                                <group>
+                                    <group string="Earnings">
+                                        <field name="basic_salary" widget="monetary"/>
+                                        <field name="allowances" widget="monetary"/>
+                                        <field name="overtime_hours"/>
+                                        <field name="overtime_amount" widget="monetary" readonly="1"/>
+                                        <field name="bonus" widget="monetary"/>
+                                    </group>
+                                    <group string="Deductions">
+                                        <field name="tax_deduction" widget="monetary"/>
+                                        <field name="insurance_deduction" widget="monetary"/>
+                                        <field name="other_deductions" widget="monetary"/>
+                                        <field name="total_deductions" widget="monetary" readonly="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="gross_salary" widget="monetary" readonly="1" class="oe_subtotal_footer_separator"/>
+                                        <field name="net_salary" widget="monetary" readonly="1" class="oe_subtotal_footer_separator"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Payment Information">
+                                <group>
+                                    <group>
+                                        <field name="payment_method"/>
+                                        <field name="payment_date"/>
+                                    </group>
+                                    <group>
+                                        <field name="notes" placeholder="Additional notes..."/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Payslip Tree View -->
+        <record id="view_hr_payslip_tree" model="ir.ui.view">
+            <field name="name">hr.payslip.tree</field>
+            <field name="model">hr.payslip</field>
+            <field name="arch" type="xml">
+                <tree string="Payslips" decoration-info="state == 'draft'" 
+                      decoration-warning="state == 'verify'" 
+                      decoration-success="state == 'done'">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="department_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="gross_salary" widget="monetary"/>
+                    <field name="net_salary" widget="monetary"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Payslip Action -->
+        <record id="action_hr_payslip" model="ir.actions.act_window">
+            <field name="name">Payslips</field>
+            <field name="res_model">hr.payslip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new payslip
+                </p>
+                <p>
+                    Generate and manage employee payslips here.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

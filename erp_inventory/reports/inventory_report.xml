@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Inventory Valuation Report -->
+        <record id="action_inventory_valuation_report" model="ir.actions.act_window">
+            <field name="name">Inventory Valuation</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="domain">[('quantity', '>', 0)]</field>
+            <field name="context">{'search_default_internal_loc': 1}</field>
+        </record>
+
+        <!-- Stock Movement Report -->
+        <record id="action_stock_movement_report" model="ir.actions.act_window">
+            <field name="name">Stock Movement Report</field>
+            <field name="res_model">stock.move</field>
+            <field name="view_mode">tree,pivot,graph</field>
+            <field name="domain">[('state', '=', 'done')]</field>
+        </record>
+
+    </data>
+</odoo>

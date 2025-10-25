@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Main AI Prediction Menu -->
+        <menuitem id="menu_erp_ai_prediction_root"
+                  name="AI Predictions"
+                  sequence="50"
+                  web_icon="erp_ai_prediction,static/description/icon.png"/>
+
+        <!-- Predictions Menu -->
+        <menuitem id="menu_stock_predictions"
+                  name="Stock Predictions"
+                  parent="menu_erp_ai_prediction_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_all_predictions"
+                  name="All Predictions"
+                  parent="menu_stock_predictions"
+                  action="action_stock_prediction"
+                  sequence="10"/>
+
+        <menuitem id="menu_urgent_reorders"
+                  name="Urgent Reorders"
+                  parent="menu_stock_predictions"
+                  action="action_urgent_reorders"
+                  sequence="20"/>
+
+    </data>
+</odoo>

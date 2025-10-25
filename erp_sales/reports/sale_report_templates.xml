@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Enhanced Sale Order Report Template -->
+        <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//div[@class='page']" position="inside">
+                <div class="row mt32">
+                    <div class="col-6">
+                        <strong>Payment Method:</strong>
+                        <p t-field="doc.payment_method"/>
+                    </div>
+                    <div class="col-6">
+                        <strong>Expected Delivery:</strong>
+                        <p t-field="doc.expected_delivery_date"/>
+                    </div>
+                </div>
+                <div class="row" t-if="doc.customer_notes">
+                    <div class="col-12">
+                        <strong>Customer Notes:</strong>
+                        <p t-field="doc.customer_notes"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

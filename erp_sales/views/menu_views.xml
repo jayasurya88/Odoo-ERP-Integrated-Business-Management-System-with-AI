@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Main Sales Menu -->
+        <menuitem id="menu_erp_sales_root"
+                  name="ERP Sales"
+                  sequence="20"
+                  web_icon="erp_sales,static/description/icon.png"/>
+
+        <!-- Orders Menu -->
+        <menuitem id="menu_sales_orders"
+                  name="Orders"
+                  parent="menu_erp_sales_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_sale_quotations"
+                  name="Quotations"
+                  parent="menu_sales_orders"
+                  action="sale.action_quotations"
+                  sequence="10"/>
+
+        <menuitem id="menu_sale_orders"
+                  name="Sales Orders"
+                  parent="menu_sales_orders"
+                  action="sale.action_orders"
+                  sequence="20"/>
+
+        <menuitem id="menu_sales_dashboard"
+                  name="Sales Dashboard"
+                  parent="menu_sales_orders"
+                  action="action_sales_dashboard"
+                  sequence="30"/>
+
+        <!-- Customers Menu -->
+        <menuitem id="menu_sales_customers"
+                  name="Customers"
+                  parent="menu_erp_sales_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_customers"
+                  name="All Customers"
+                  parent="menu_sales_customers"
+                  action="base.action_partner_form"
+                  sequence="10"/>
+
+        <menuitem id="menu_top_customers"
+                  name="Top Customers"
+                  parent="menu_sales_customers"
+                  action="action_top_customers"
+                  sequence="20"/>
+
+        <!-- Reports Menu -->
+        <menuitem id="menu_sales_reports"
+                  name="Reports"
+                  parent="menu_erp_sales_root"
+                  sequence="30"/>
+
+        <menuitem id="menu_sale_report"
+                  name="Sales Analysis"
+                  parent="menu_sales_reports"
+                  action="sale.action_order_report_all"
+                  sequence="10"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Attendance Form View -->
+        <record id="view_attendance_form_inherit" model="ir.ui.view">
+            <field name="name">hr.attendance.form.inherit</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='check_out']" position="after">
+                    <field name="work_hours" readonly="1"/>
+                    <field name="overtime_hours" readonly="1"/>
+                    <field name="attendance_status" widget="badge" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='check_in']" position="after">
+                    <field name="is_late" readonly="1" widget="boolean_toggle"/>
+                    <field name="late_minutes" readonly="1" attrs="{'invisible': [('is_late', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <group>
+                        <field name="notes" placeholder="Additional notes..."/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Attendance Tree View -->
+        <record id="view_attendance_tree_inherit" model="ir.ui.view">
+            <field name="name">hr.attendance.tree.inherit</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='worked_hours']" position="after">
+                    <field name="attendance_status" widget="badge"/>
+                    <field name="overtime_hours"/>
+                    <field name="is_late" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Leave Form View -->
+        <record id="view_leave_form_inherit" model="ir.ui.view">
+            <field name="name">hr.leave.form.inherit</field>
+            <field name="model">hr.leave</field>
+            <field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="leave_reason" placeholder="Please provide reason for leave..."/>
+                </xpath>
+                <xpath expr="//field[@name='date_to']" position="after">
+                    <field name="approved_by" readonly="1"/>
+                    <field name="approval_date" readonly="1"/>
+                    <field name="rejection_reason" attrs="{'invisible': [('state', '!=', 'refuse')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- CRM Lead Form View -->
+        <record id="view_crm_lead_form_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='priority']" position="after">
+                    <field name="lead_score"/>
+                    <field name="lead_quality" widget="badge"
+                           decoration-danger="lead_quality == 'cold'"
+                           decoration-warning="lead_quality == 'warm'"
+                           decoration-success="lead_quality == 'hot'"/>
+                    <field name="is_qualified" widget="boolean_toggle"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_name']" position="after">
+                    <field name="industry"/>
+                    <field name="company_size"/>
+                </xpath>
+                <xpath expr="//page[@name='extra']" position="after">
+                    <page string="Engagement">
+                        <group>
+                            <group>
+                                <field name="lead_source_detail"/>
+                                <field name="campaign_id"/>
+                                <field name="last_contact_date"/>
+                                <field name="next_followup_date"/>
+                            </group>
+                            <group>
+                                <field name="contact_count" readonly="1"/>
+                                <field name="days_since_last_contact" readonly="1"/>
+                                <field name="conversion_probability"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="estimated_revenue" widget="monetary"/>
+                                <field name="actual_revenue" widget="monetary"/>
+                            </group>
+                            <group>
+                                <field name="qualification_date" readonly="1"/>
+                                <field name="lost_reason_detail" attrs="{'invisible': [('active', '=', True)]}"/>
+                            </group>
+                        </group>
+                        <group>
+                            <button name="action_log_contact" string="Log Contact" type="object" class="btn-primary"/>
+                            <button name="action_qualify_lead" string="Qualify Lead" type="object" class="btn-success"
+                                    attrs="{'invisible': [('is_qualified', '=', True)]}"/>
+                            <button name="action_schedule_followup" string="Schedule Follow-up" type="object" class="btn-info"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- CRM Lead Tree View -->
+        <record id="view_crm_lead_tree_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.tree.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='expected_revenue']" position="after">
+                    <field name="lead_score"/>
+                    <field name="lead_quality" widget="badge"/>
+                    <field name="days_since_last_contact"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Hot Leads Action -->
+        <record id="action_hot_leads" model="ir.actions.act_window">
+            <field name="name">Hot Leads</field>
+            <field name="res_model">crm.lead</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('lead_quality', '=', 'hot'), ('type', '=', 'opportunity')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No hot leads found!
+                </p>
+                <p>
+                    Hot leads are high-priority opportunities with a lead score of 70 or above.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Payslip Report Action -->
+        <record id="action_report_payslip" model="ir.actions.report">
+            <field name="name">Payslip</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">erp_hr.report_payslip_document</field>
+            <field name="report_file">erp_hr.report_payslip_document</field>
+            <field name="binding_model_id" ref="model_hr_payslip"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Payslip Report Template -->
+        <template id="report_payslip_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2 class="text-center">Payslip</h2>
+                            <div class="row mt32">
+                                <div class="col-6">
+                                    <strong>Employee:</strong> <span t-field="doc.employee_id"/><br/>
+                                    <strong>Employee Code:</strong> <span t-field="doc.employee_id.employee_code"/><br/>
+                                    <strong>Department:</strong> <span t-field="doc.department_id"/><br/>
+                                    <strong>Job Position:</strong> <span t-field="doc.job_id"/><br/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Payslip Reference:</strong> <span t-field="doc.name"/><br/>
+                                    <strong>Period:</strong> <span t-field="doc.date_from"/> to <span t-field="doc.date_to"/><br/>
+                                    <strong>Payment Date:</strong> <span t-field="doc.payment_date"/><br/>
+                                    <strong>Payment Method:</strong> <span t-field="doc.payment_method"/><br/>
+                                </div>
+                            </div>
+                            
+                            <h4 class="mt32">Salary Details</h4>
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th class="text-right">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Earnings</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Basic Salary</td>
+                                        <td class="text-right"><span t-field="doc.basic_salary"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Allowances</td>
+                                        <td class="text-right"><span t-field="doc.allowances"/></td>
+                                    </tr>
+                                    <tr t-if="doc.overtime_amount > 0">
+                                        <td>Overtime (<span t-field="doc.overtime_hours"/> hours)</td>
+                                        <td class="text-right"><span t-field="doc.overtime_amount"/></td>
+                                    </tr>
+                                    <tr t-if="doc.bonus > 0">
+                                        <td>Bonus</td>
+                                        <td class="text-right"><span t-field="doc.bonus"/></td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Gross Salary</strong></td>
+                                        <td class="text-right"><strong><span t-field="doc.gross_salary"/></strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Deductions</strong></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr t-if="doc.tax_deduction > 0">
+                                        <td>Tax Deduction</td>
+                                        <td class="text-right"><span t-field="doc.tax_deduction"/></td>
+                                    </tr>
+                                    <tr t-if="doc.insurance_deduction > 0">
+                                        <td>Insurance</td>
+                                        <td class="text-right"><span t-field="doc.insurance_deduction"/></td>
+                                    </tr>
+                                    <tr t-if="doc.other_deductions > 0">
+                                        <td>Other Deductions</td>
+                                        <td class="text-right"><span t-field="doc.other_deductions"/></td>
+                                    </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Total Deductions</strong></td>
+                                        <td class="text-right"><strong><span t-field="doc.total_deductions"/></strong></td>
+                                    </tr>
+                                    <tr class="border-black" style="background-color: #f0f0f0;">
+                                        <td><strong>Net Salary</strong></td>
+                                        <td class="text-right"><strong><span t-field="doc.net_salary"/></strong></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div class="row mt32" t-if="doc.notes">
+                                <div class="col-12">
+                                    <strong>Notes:</strong><br/>
+                                    <span t-field="doc.notes"/>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt64">
+                                <div class="col-6">
+                                    <p>_______________________<br/>Employee Signature</p>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <p>_______________________<br/>Authorized Signature</p>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

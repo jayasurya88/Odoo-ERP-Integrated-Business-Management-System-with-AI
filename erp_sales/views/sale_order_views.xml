@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Sale Order Form View -->
+        <record id="view_sale_order_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="sales_person_id"/>
+                    <field name="payment_method"/>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="expected_delivery_date"/>
+                    <field name="predicted_delivery_date" readonly="1"/>
+                    <field name="actual_delivery_date" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="discount_percentage"/>
+                    <field name="total_discount" widget="monetary"/>
+                    <field name="payment_status" widget="badge"
+                           decoration-success="payment_status == 'paid'"
+                           decoration-warning="payment_status == 'partial'"
+                           decoration-danger="payment_status == 'unpaid'"/>
+                    <field name="delivery_status" widget="badge"
+                           decoration-success="delivery_status == 'delivered'"
+                           decoration-warning="delivery_status == 'partial'"
+                           decoration-info="delivery_status == 'pending'"/>
+                </xpath>
+                <xpath expr="//page[@name='other_information']" position="after">
+                    <page string="Notes">
+                        <group>
+                            <field name="customer_notes" placeholder="Customer notes and special requests..."/>
+                            <field name="internal_notes" placeholder="Internal notes for team..."/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//button[@name='action_confirm']" position="after">
+                    <button name="action_confirm_with_stock_check" 
+                            string="Confirm with Stock Check" 
+                            type="object" 
+                            class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_mark_delivered" 
+                            string="Mark Delivered" 
+                            type="object" 
+                            class="btn-success"
+                            attrs="{'invisible': [('state', '!=', 'sale')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Sale Order Line Form View -->
+        <record id="view_sale_order_line_form_inherit" model="ir.ui.view">
+            <field name="name">sale.order.line.form.inherit</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='price_unit']" position="after">
+                    <field name="cost_price" readonly="1"/>
+                    <field name="margin_percentage" readonly="1"/>
+                    <field name="line_discount_amount" widget="monetary" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Sale Order Tree View -->
+        <record id="view_sale_order_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="payment_status" widget="badge"/>
+                    <field name="delivery_status" widget="badge"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Sales Dashboard Action -->
+        <record id="action_sales_dashboard" model="ir.actions.act_window">
+            <field name="name">Sales Dashboard</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">kanban,tree,form,pivot,graph</field>
+            <field name="domain">[('state', 'in', ['sale', 'done'])]</field>
+            <field name="context">{'search_default_my_orders': 1}</field>
+        </record>
+
+    </data>
+</odoo>

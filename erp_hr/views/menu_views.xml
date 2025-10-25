@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- Main HR Menu -->
+        <menuitem id="menu_erp_hr_root"
+                  name="ERP HR"
+                  sequence="30"
+                  web_icon="erp_hr,static/description/icon.png"/>
+
+        <!-- Employees Menu -->
+        <menuitem id="menu_hr_employees"
+                  name="Employees"
+                  parent="menu_erp_hr_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_hr_employee"
+                  name="All Employees"
+                  parent="menu_hr_employees"
+                  action="hr.open_view_employee_list_my"
+                  sequence="10"/>
+
+        <menuitem id="menu_hr_department"
+                  name="Departments"
+                  parent="menu_hr_employees"
+                  action="hr.open_module_tree_department"
+                  sequence="20"/>
+
+        <!-- Attendance Menu -->
+        <menuitem id="menu_hr_attendance"
+                  name="Attendance"
+                  parent="menu_erp_hr_root"
+                  sequence="20"/>
+
+        <menuitem id="menu_hr_attendance_records"
+                  name="Attendance Records"
+                  parent="menu_hr_attendance"
+                  action="hr_attendance.hr_attendance_action"
+                  sequence="10"/>
+
+        <!-- Leave Management Menu -->
+        <menuitem id="menu_hr_leave"
+                  name="Leave Management"
+                  parent="menu_erp_hr_root"
+                  sequence="30"/>
+
+        <menuitem id="menu_hr_leave_requests"
+                  name="Leave Requests"
+                  parent="menu_hr_leave"
+                  action="hr_holidays.hr_leave_action_my"
+                  sequence="10"/>
+
+        <menuitem id="menu_hr_leave_allocations"
+                  name="Leave Allocations"
+                  parent="menu_hr_leave"
+                  action="hr_holidays.hr_leave_allocation_action_my"
+                  sequence="20"/>
+
+        <!-- Payroll Menu -->
+        <menuitem id="menu_hr_payroll"
+                  name="Payroll"
+                  parent="menu_erp_hr_root"
+                  sequence="40"/>
+
+        <menuitem id="menu_hr_payslip"
+                  name="Payslips"
+                  parent="menu_hr_payroll"
+                  action="action_hr_payslip"
+                  sequence="10"/>
+
+    </data>
+</odoo>
